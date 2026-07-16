@@ -17,6 +17,17 @@ const commands = [
         .setRequired(true)
     )
     .toJSON(),
+
+    new SlashCommandBuilder()
+    .setName("summarize")
+    .setDescription("Summarize text")
+    .addStringOption(option =>
+        option
+            .setName("text")
+            .setDescription("Text to summarize")
+            .setRequired(true)
+    )
+    .toJSON(),
 ];
 
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);

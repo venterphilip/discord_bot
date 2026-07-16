@@ -1,5 +1,6 @@
 import { ChatInputCommandInteraction } from 'discord.js';
-import { askOpenAI } from '../services/openai.js';
+import { ai } from "../ai/factory.js";
+import { splitMessage } from "../lib/discord.js";
 
 export async function askCommand(
   interaction: ChatInputCommandInteraction,
@@ -9,8 +10,14 @@ export async function askCommand(
   await interaction.deferReply();
 
   try {
-    const answer = await askOpenAI(question);
-    await interaction.editReply(answer);
+    const answer = await ai.ask(question);
+    const parts = splitMessage(answer);
+
+    await interaction.editReply(parts[0]);
+
+    for (let i = 1; i < parts.length; i++) {
+      await interaction.followUp(parts[i]);
+    }
   } catch (err) {
     console.error(err);
     await interaction.editReply('Sorry, something went wrong.');

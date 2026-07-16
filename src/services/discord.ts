@@ -2,6 +2,7 @@ import { Client, GatewayIntentBits } from 'discord.js';
 import { config } from '../config.js';
 import { pingCommand } from '../commands/ping.js';
 import { askCommand } from '../commands/ask.js';
+import { summarizeCommand } from '../commands/summarize.js';
 
 export const client = new Client({
   intents: [GatewayIntentBits.Guilds],
@@ -23,6 +24,9 @@ export async function startDiscord(): Promise<void> {
         break;
       case 'ask':
        await askCommand(interaction);
+       break;
+      case "summarize":
+       await summarizeCommand(interaction);
        break;
       default:
         await interaction.reply({

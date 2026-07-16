@@ -1,11 +1,18 @@
-import 'dotenv/config';
-import { z } from 'zod';
+import "dotenv/config";
+import { z } from "zod";
 
-const env = z.object({
-  DISCORD_TOKEN: z.string().min(1),
-  DISCORD_CLIENT_ID: z.string().min(1),
-  DISCORD_GUILD_ID: z.string().min(1),
-  OPENAI_API_KEY: z.string().min(1),
+const schema = z.object({
+  DISCORD_TOKEN: z.string(),
+  DISCORD_CLIENT_ID: z.string(),
+  DISCORD_GUILD_ID: z.string(),
+
+  AI_PROVIDER: z.enum([
+    "google",
+    "openai",
+  ]),
+
+  GOOGLE_API_KEY: z.string().optional(),
+  OPENAI_API_KEY: z.string().optional(),
 });
 
-export const config = env.parse(process.env);
+export const config = schema.parse(process.env);
